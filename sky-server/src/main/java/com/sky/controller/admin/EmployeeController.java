@@ -93,6 +93,30 @@ public class EmployeeController {
         PageResult pageResult = employeeService.page(employeePageQueryDTO);
         return Result.success(pageResult);
     }
+    @ApiOperation("状态修改")
+    @PostMapping("/status/{status}")
+    public Result startOrStop(@PathVariable Integer status,Long id){
+        log.info("正在修改员工状态：{}{}",status,id);
+        employeeService.startOrStop(status,id);
+        return Result.success();
+    }
+
+    @ApiOperation("查询员工")
+    @GetMapping("/{id}")
+    public Result<Employee> getById(@PathVariable Long id){
+        log.info("查询员工：{}",id);
+        Employee employee=employeeService.selectById(id);
+        return Result.success(employee);
+    }
+
+    @ApiOperation("编辑员工")
+    @PutMapping()
+    public Result update(@RequestBody EmployeeDTO employeeDTO){
+        log.info("编辑员工：{}",employeeDTO);
+        employeeService.update(employeeDTO);
+        return Result.success();
+
+    }
 
 }
 
