@@ -42,7 +42,9 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
      * @return
      */
     @Bean
+    //生成在线文档的配置
     public Docket docket() {
+        log.info("开始创建接口文档...");
         ApiInfo apiInfo = new ApiInfoBuilder()
                 .title("苍穹外卖项目接口文档")
                 .version("2.0")
@@ -62,7 +64,8 @@ public class WebMvcConfiguration extends WebMvcConfigurationSupport {
      * @param registry
      */
     protected void addResourceHandlers(ResourceHandlerRegistry registry) {
-        registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");
+        log.info("开始进行静态资源映射...");
+        registry.addResourceHandler("/doc.html").addResourceLocations("classpath:/META-INF/resources/");//映射swagger2
         registry.addResourceHandler("/webjars/**").addResourceLocations("classpath:/META-INF/resources/webjars/");
     }
 }
