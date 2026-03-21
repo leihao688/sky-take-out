@@ -6,3 +6,9 @@ sky:
     database: sky_take_out
     username: root
     password: leihao0721
+  alioss:
+    endpoint: oss-cn-beijing.aliyuncs.com
+    bucket-name: java-ai-leihao
+    region: cn-beijing
+    access-key-id: ${OSS_ACCESS_KEY_ID}
+    access-key-secret: ${OSS_ACCESS_KEY_SECRET}
