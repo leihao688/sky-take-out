@@ -4,6 +4,7 @@ import com.sky.constant.MessageConstant;
 import com.sky.result.Result;
 import com.sky.utils.AliOssUtil;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -24,6 +25,7 @@ public class CommonController {
     private AliOssUtil aliOssUtil;
 
     @PostMapping("/upload")
+    @ApiOperation("图片上传")
     public Result<String> upload(MultipartFile file) throws IOException {
         log.info("正在上传文件{}",file);
         try {

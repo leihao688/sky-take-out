@@ -12,4 +12,6 @@ import java.util.List;
 public interface FlavorMapper {
 
     void InsertBeach(List<DishFlavor> flavorList);
+
+    void deleteByDishId(List<Long> ids);
 }

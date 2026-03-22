@@ -9,4 +9,27 @@
 
 
     </insert>
+    <delete id="deleteById">
+        delete from dish where id in
+        <foreach collection="ids" item="id" open="(" close=")" separator=",">
+                         #{id}
+        </foreach>
+    </delete>
+    <select id="page" resultType="com.sky.entity.Dish">
+        select dish.*,category.name as category_name from dish left join category
+                   on dish.category_id = category.id
+        <where> <if test="name!=null"> and dish.name like concat('%',#{name},'%') </if>
+                <if test="categoryId!=null">and category_id =#{categoryId}</if>
+            <if test="status!=null"> and dish.status=#{status}</if>
+        </where>
+        order by dish.id
+    </select>
+    <select id="selectByIds" resultType="com.sky.entity.Dish">
+        select  NAME, CATEGORY_ID, PRICE, IMAGE, DESCRIPTION,
+               STATUS, CREATE_TIME, UPDATE_TIME, CREATE_USER, UPDATE_USER from dish
+        WHERE id IN
+        <foreach collection="ids" item="id" separator="," open="(" close=")" >
+        #{id}
+        </foreach>
+    </select>
 </mapper>
