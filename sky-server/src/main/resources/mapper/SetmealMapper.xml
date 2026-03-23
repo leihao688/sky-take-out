@@ -8,4 +8,12 @@
         VALUES (#{categoryId},#{name},#{price},#{status},#{description},#{image},#{createTime}
                ,#{updateTime},#{createUser},#{updateUser})
     </insert>
+    <select id="page" resultType="com.sky.entity.Setmeal">
+        select * from setmeal
+        <where>
+            <if test="name !=null">name like conact('%',#{name},'%')</if>
+            <if test="categoryId!=null">and category_id=#{categoryId}</if>
+            <if test="status!=null">and status=#{status}</if>
+        </where>
+    </select>
 </mapper>
