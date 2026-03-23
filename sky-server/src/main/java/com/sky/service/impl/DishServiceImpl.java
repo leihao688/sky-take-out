@@ -15,6 +15,7 @@ import com.sky.mapper.FlavorMapper;
 import com.sky.mapper.SetMealDishMapper;
 import com.sky.result.PageResult;
 import com.sky.service.DishService;
+import com.sky.vo.DishVO;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -38,8 +39,46 @@ public class DishServiceImpl implements DishService {
         PageHelper.startPage(dishPageQueryDTO.getPage(),dishPageQueryDTO.getPageSize());
         List<Dish>dishList=dishMapper.page(dishPageQueryDTO);
         Page<Dish> dishPage=(Page<Dish>) dishList;
-        return new PageResult(dishPage.getPages(),dishPage.getResult());
+        return new PageResult(dishPage.getTotal(),dishPage.getResult());
     }
+
+    @Override
+    public DishVO selectById(Long id) {
+        Dish dish=dishMapper.selectById(id);
+        DishVO dishVO=new DishVO();
+        BeanUtils.copyProperties(dish,dishVO);
+        List<DishFlavor> flavors= flavorMapper.selectByDishId(id);
+        dishVO.setFlavors(flavors);
+        return dishVO;
+    }
+
+    @Override
+    public void updateDishWithFlavor(DishDTO dishDTO) {
+
+        Dish dish = new Dish();
+        BeanUtils.copyProperties(dishDTO,dish);
+        dishMapper.update(dish);
+        //先删除菜品的口味再添加
+        flavorMapper.deleteByDishIdOne(dishDTO.getId());
+        if(dishDTO.getFlavors()!=null && dishDTO.getFlavors().size()>0){
+            dishDTO.getFlavors().forEach(flavor->{flavor.setDishId(dishDTO.getId());});
+        }
+        //添加
+        flavorMapper.InsertBeach(dishDTO.getFlavors());
+
+    }
+
+    @Override
+    public List<Dish> list(Long categoryId) {
+        Dish dish= Dish.builder().
+                categoryId(categoryId).
+                status(StatusConstant.ENABLE).
+                build();
+        List<Dish> dishList = dishMapper.list(dish);
+        return dishList;
+
+    }
+
     @Transactional(rollbackFor = {Exception.class})
     @Override
     public void delete(List<Long> ids) {
