@@ -13,4 +13,8 @@ public interface SetmealService {
     void detele(Long[] ids);
 
     Setmeal selectById(Long id);
+
+    void update(SetmealDTO setmealDTO);
+
+    void startOrStop(Integer status, Long id);
 }

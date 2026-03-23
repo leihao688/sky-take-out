@@ -6,7 +6,9 @@ import com.github.pagehelper.PageHelper;
 import com.sky.constant.StatusConstant;
 import com.sky.dto.SetmealDTO;
 import com.sky.dto.SetmealPageQueryDTO;
+import com.sky.entity.Dish;
 import com.sky.entity.Setmeal;
+import com.sky.entity.SetmealDish;
 import com.sky.exception.DeletionNotAllowedException;
 import com.sky.mapper.DishMapper;
 import com.sky.mapper.SetMealDishMapper;
@@ -71,6 +73,37 @@ public class SetmealServiceImpl implements SetmealService {
 
     @Override
     public Setmeal selectById(Long id) {
+        Setmeal setmeal= setmealMapper.selectById(id);
+        return setmeal;
+    }
+
+    @Override
+    public void update(SetmealDTO setmealDTO) {
+        Setmeal setmeal = new Setmeal();
+        BeanUtils.copyProperties(setmealDTO, setmeal);
+        setmealMapper.update(setmeal);
+        setMealDishMapper.delete(new Long[]{setmealDTO.getId()});
+        List<SetmealDish> setmealDishes = setmealDTO.getSetmealDishes();
+        if(setmealDishes!=null&&setmealDishes.size()>0){
+            setmealDishes.forEach(dish->{
+                dish.setSetmealId(setmealDTO.getId());
+            });
+        }
+        setMealDishMapper.insertBeach(setmealDishes);
+
+    }
+
+    @Override
+    public void startOrStop(Integer status, Long id) {
+       List<Long>ids=setMealDishMapper.selectById(id);
+       List<Dish>dishList=dishMapper.selectByIds(ids);
+       dishList.forEach(dish->{
+           if(dish.getStatus()==StatusConstant.ENABLE){
+               throw new DeletionNotAllowedException("当前有起售中的菜品，不能停售套餐");
+           }
+       });
+       Setmeal setmeal= Setmeal.builder().id(id).status(status).build();
+       setmealMapper.update(setmeal);
 
     }
 }

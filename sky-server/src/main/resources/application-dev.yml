@@ -12,3 +12,6 @@ sky:
     region: cn-beijing
     access-key-id: ${OSS_ACCESS_KEY_ID}
     access-key-secret: ${OSS_ACCESS_KEY_SECRET}
+  redis:
+    host: localhost
+    port: 6379

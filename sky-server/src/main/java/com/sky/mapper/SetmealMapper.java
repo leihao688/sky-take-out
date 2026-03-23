@@ -6,6 +6,7 @@ import com.sky.entity.Setmeal;
 import com.sky.enumeration.OperationType;
 import org.apache.ibatis.annotations.Mapper;
 import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.Update;
 
 import java.util.List;
 
@@ -28,4 +29,9 @@ public interface SetmealMapper {
 
 
     List<Setmeal> getById(Long[] ids);
+    @Select("select * from setmeal where id = #{id}")
+    Setmeal selectById(Long id);
+    @autoFill(OperationType.UPDATE)
+    void update(Setmeal setmeal);
+
 }

@@ -41,11 +41,25 @@ public class SetMealController {
         setmealService.detele(ids);
         return Result.success();
     }
-    @GetMapping("{/id}")
+    @GetMapping("/{id}")
     @ApiOperation("根据ID查询套餐")
     public Result selectById(@PathVariable Long id){
         log.info("正在根据ID{}查询套餐",id);
         Setmeal setmeal = setmealService.selectById(id);
         return Result.success(setmeal);
+    }
+    @PutMapping
+    @ApiOperation("修改套餐")
+    public Result update(@RequestBody SetmealDTO setmealDTO){
+        log.info("正在修改套餐{}",setmealDTO);
+        setmealService.update(setmealDTO);
+        return Result.success();
+    }
+    @PostMapping("/status/{status}")
+    @ApiOperation("起售、停售套餐")
+    public Result StartOrStop(@PathVariable Integer status,Long id){
+        log.info("正在修改套餐{}",id);
+        setmealService.startOrStop(status,id);
+        return Result.success();
     }
 }
