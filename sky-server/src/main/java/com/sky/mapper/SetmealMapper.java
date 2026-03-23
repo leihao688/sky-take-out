@@ -23,4 +23,9 @@ public interface SetmealMapper {
     void insert(Setmeal setmeal);
 
     List<Setmeal> page(SetmealPageQueryDTO setmealPageQueryDTO);
+
+    void delete(Long[] ids);
+
+
+    List<Setmeal> getById(Long[] ids);
 }

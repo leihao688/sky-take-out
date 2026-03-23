@@ -51,7 +51,7 @@ public class DishServiceImpl implements DishService {
         dishVO.setFlavors(flavors);
         return dishVO;
     }
-
+    @Transactional(rollbackFor = {Exception.class})
     @Override
     public void updateDishWithFlavor(DishDTO dishDTO) {
 

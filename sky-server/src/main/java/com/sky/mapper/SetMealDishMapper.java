@@ -11,4 +11,6 @@ public interface SetMealDishMapper {
     public List<Long> selectByIds(List<Long> ids) ;
 
     void insertBeach(List<SetmealDish> setmealDishes);
+
+    void delete(Long[] ids);
 }

@@ -34,4 +34,18 @@ public class SetMealController {
         PageResult list=setmealService.page(setmealPageQueryDTO);
         return Result.success(list);
     }
+    @DeleteMapping
+    @ApiOperation("批量删除")
+    public Result delete(Long[]ids){
+        log.info("正在进行批量删除{}",ids);
+        setmealService.detele(ids);
+        return Result.success();
+    }
+    @GetMapping("{/id}")
+    @ApiOperation("根据ID查询套餐")
+    public Result selectById(@PathVariable Long id){
+        log.info("正在根据ID{}查询套餐",id);
+        Setmeal setmeal = setmealService.selectById(id);
+        return Result.success(setmeal);
+    }
 }

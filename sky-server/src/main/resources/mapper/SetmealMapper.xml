@@ -8,6 +8,15 @@
         VALUES (#{categoryId},#{name},#{price},#{status},#{description},#{image},#{createTime}
                ,#{updateTime},#{createUser},#{updateUser})
     </insert>
+    <delete id="delete">
+        delete from setmeal <where>
+        id in
+        <foreach collection="ids" item="id" separator="," open="(" close=")">
+            #{id}
+        </foreach>
+    </where>
+
+    </delete>
     <select id="page" resultType="com.sky.entity.Setmeal">
         select * from setmeal
         <where>
@@ -15,5 +24,11 @@
             <if test="categoryId!=null">and category_id=#{categoryId}</if>
             <if test="status!=null">and status=#{status}</if>
         </where>
+    </select>
+    <select id="getById" resultType="com.sky.entity.Setmeal">
+        select * from setmeal where id in
+       <foreach collection="ids" item="id" separator="," open="(" close=")">
+        #{id}
+       </foreach>
     </select>
 </mapper>
