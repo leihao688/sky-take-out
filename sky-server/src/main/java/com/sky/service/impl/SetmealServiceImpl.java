@@ -99,7 +99,7 @@ public class SetmealServiceImpl implements SetmealService {
        List<Long>ids=setMealDishMapper.selectById(id);
        List<Dish>dishList=dishMapper.selectByIds(ids);
        dishList.forEach(dish->{
-           if(dish.getStatus()==StatusConstant.ENABLE){
+           if(dish.getStatus()==StatusConstant.ENABLE && status==StatusConstant.DISABLE){
                throw new DeletionNotAllowedException("当前有起售中的菜品，不能停售套餐");
            }
        });
