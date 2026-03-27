@@ -44,4 +44,6 @@ public interface OrderMapper {
     List<Orders> selectByTimeandStatus(Integer status, LocalDateTime time);
 
     Double sum(Map map);
+
+    Integer getUserCount(Map map);
 }
