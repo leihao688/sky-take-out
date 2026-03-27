@@ -11,6 +11,7 @@ import org.apache.ibatis.annotations.Select;
 import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface OrderMapper {
@@ -41,4 +42,6 @@ public interface OrderMapper {
     Integer getCount(Integer  status);
     @Select("select * from orders where order_time < #{time} and status=#{status}")
     List<Orders> selectByTimeandStatus(Integer status, LocalDateTime time);
+
+    Double sum(Map map);
 }

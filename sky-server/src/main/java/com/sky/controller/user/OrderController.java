@@ -67,5 +67,12 @@ private OrderService orderService;
         orderService.repetition(id);
         return Result.success();
     }
+    @GetMapping ("reminder/{id}")
+    @ApiOperation("来单提醒")
+    public Result reminder(@PathVariable Long id){
+        log.info("来单提醒");
+        orderService.reminder(id);
+        return Result.success();
+    }
 
 }
